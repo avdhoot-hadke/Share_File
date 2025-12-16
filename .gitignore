@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Backend
+server/node_modules/
+server/dist/
+server/build/
+
+# Frontend
+client/node_modules/
+client/build/
+client/dist/
+client/.next/
+client/.vite/
+
+# Logs
+*.log
+
+# Coverage
+coverage/
+
+# OS / Editor
+.DS_Store
+.idea/
+.vscode/
