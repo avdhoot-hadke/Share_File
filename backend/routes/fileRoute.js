@@ -1,18 +1,18 @@
-import express from "express";
-import auth from "../middlewares/auth.middleware.js";
-import { upload } from "../middlewares/upload.middleware.js";
-import { getMyFiles, uploadFiles, getMyFiles, shareFile, accessFile, getSharedFiles } from "../controllers/fileController.js";
+import express from 'express';
+import { verifyToken } from '../middlewares/authMiddleware.js';
+import { upload } from '../middlewares/uploadMiddleware.js';
+import { uploadFiles, shareFile, accessFile, getMyFiles, getSharedFiles } from '../controllers/fileController.js';
 
-const fileRouter = express.Router();
+const router = express.Router();
 
-fileRouter.post("/upload", auth, upload.array("files", 5), uploadFiles);
+router.post('/upload', verifyToken, upload.array('files', 5), uploadFiles);
 
-fileRouter.get("/my-files", auth, getMyFiles);
+router.post('/share', verifyToken, shareFile);
 
-fileRouter.get("/shared-with-me", auth, getSharedFiles);
+router.get('/:id', verifyToken, accessFile);
 
-fileRouter.post("/share", auth, shareFile);
+router.get('/list/my-files', verifyToken, getMyFiles);
 
-fileRouter.get("/:id", auth, accessFile);
+router.get('/list/shared-with-me', verifyToken, getSharedFiles);
 
-export default fileRouter;
+export default router;
