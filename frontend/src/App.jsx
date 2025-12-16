@@ -9,9 +9,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import SharedWithMe from './pages/SharedWithMe';
 import ViewFile from './pages/ViewFile';
-
-// We will build these next, for now just placeholder
-const Dashboard = () => <div className="p-10 text-center text-2xl">Dashboard (Coming Soon)</div>;
+import Dashboard from './pages/Dashboard';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -34,11 +32,6 @@ function App() {
             <Route path="/register" element={<Register />} />
 
             {/* Protected Routes */}
-            <Route path="/dashboard" element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            } />
             <Route path="/dashboard" element={
               <ProtectedRoute>
                 <Dashboard />
