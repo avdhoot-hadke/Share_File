@@ -1,15 +1,12 @@
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import { User } from "../models/user";
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
 
 export const register = async (req, res) => {
     const { username, email, password } = req.body;
-
     try {
         let user = await User.findOne({ email });
-        if (user) {
-            return res.status(400).json({ msg: "User already exists" });
-        }
+        if (user) return res.status(400).json({ msg: 'User already exists' });
 
         user = new User({ username, email, password });
 
@@ -18,52 +15,33 @@ export const register = async (req, res) => {
 
         await user.save();
 
-        const payload = {
-            user: { id: user.id }
-        };
-
-        jwt.sign(
-            payload,
-            process.env.JWT_SECRET,
-            { expiresIn: "1h" },
-            (err, token) => {
-                if (err) throw err;
-                res.json({ token });
-            }
-        );
+        const payload = { user: { id: user.id } };
+        jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' }, (err, token) => {
+            if (err) throw err;
+            res.json({ token });
+        });
     } catch (err) {
-        res.status(500).send("Server error");
+        console.error(err);
+        res.status(500).send('Server error');
     }
 };
 
 export const login = async (req, res) => {
     const { email, password } = req.body;
-
     try {
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(400).json({ msg: "Invalid Credentials" });
-        }
+        let user = await User.findOne({ email });
+        if (!user) return res.status(400).json({ msg: 'Invalid Credentials' });
 
         const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(400).json({ msg: "Invalid Credentials" });
-        }
+        if (!isMatch) return res.status(400).json({ msg: 'Invalid Credentials' });
 
-        const payload = {
-            user: { id: user.id }
-        };
-
-        jwt.sign(
-            payload,
-            process.env.JWT_SECRET,
-            { expiresIn: "1h" },
-            (err, token) => {
-                if (err) throw err;
-                res.json({ token });
-            }
-        );
+        const payload = { user: { id: user.id } };
+        jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' }, (err, token) => {
+            if (err) throw err;
+            res.json({ token, username: user.username });
+        });
     } catch (err) {
-        res.status(500).send("Server error");
+        console.error(err);
+        res.status(500).send('Server error');
     }
 };
