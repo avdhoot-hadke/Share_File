@@ -4,12 +4,12 @@ import { Toaster } from 'react-hot-toast';
 import { useContext } from 'react';
 
 // Components
-import Navbar from './components/navbar';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import SharedWithMe from './pages/SharedWithMe';
-import ViewFile from './pages/ViewFile';
-import Dashboard from './pages/Dashboard';
+import Navbar from './components/Navbar.jsx';
+import Login from './pages/Login.jsx';
+import Register from './pages/Register.jsx';
+import SharedWithMe from './pages/SharedWithMe.jsx';
+import ViewFile from './pages/ViewFile.jsx';
+import Dashboard from './pages/Dashboard.jsx';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
